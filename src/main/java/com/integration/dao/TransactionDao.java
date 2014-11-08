@@ -82,6 +82,31 @@ public class TransactionDao {
 	}
 	
 	
+	public double getBalance(){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		double balance = 0.0;
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/accountdb", "root", "root");
+			String sql = "SELECT SUM(VALUE) FROM account LIMIT 1";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				balance = rs.getDouble(1);
+				
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		}
+		catch(SQLException | ClassNotFoundException e){
+			e.printStackTrace();
+		}		
+		return balance;
+	}
+	
+	
 	
 	
 	
